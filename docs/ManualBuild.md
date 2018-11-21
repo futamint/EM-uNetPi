@@ -259,7 +259,7 @@ ExecStart=-/sbin/agetty --noclear %I $TERM
 を
 
 ```
-ExecStart=-/sbin/getty/ --noclear -a pi %I $TERM
+ExecStart=-/sbin/getty --noclear -a pi %I $TERM
 ```
 
 へ変更。
