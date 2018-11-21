@@ -26,14 +26,16 @@ Raspberry Pi の初期設定
 
 #### raspi-configで設定変更
 
-デフォルトのpiユーザでログイン、下記コマンドで設定画面を呼び出し、
+デフォルトのpiユーザでログイン、raspi-config コマンドで設定を変更する。
 
 - SSHログインを有効にする
 - SPIを有効にする
 - Host名を任意の名前に変更する
 
 ```
-$ sudo raspi-config
+$ sudo raspi-config nonint do_ssh 0
+$ sudo raspi-config nonint do_spi 0
+$ sudo raspi-config nonint do_hostname em-netpi
 ```
 
 #### ユーザ設定
