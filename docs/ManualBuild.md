@@ -233,7 +233,7 @@ INTERFACESv4="wlan0 eth2"
 ```
 sudo apt-get install fbi 
 git clone https://github.com/swkim01/waveshare-dtoverlays.git
-sudo cp waveshare-dtoverlays/waveshare35a-overlay.dtb /boot/overlays/
+sudo cp waveshare-dtoverlays/waveshare35a.dtbo /boot/overlays/
 ```
 
 さらに
