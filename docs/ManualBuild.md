@@ -183,7 +183,7 @@ $ sudo modprobe -a rtl8812au
 
 ```
 sudo apt-get install isc-dhcp-server
-sudo update-rc.d isc-dhcp-server enable
+sudo systemctl enable isc-dhcp-server
 ```
 
 /etc/dhcp/dhcpd.conf の末尾に追加

@@ -66,8 +66,8 @@ else {
 
 file_put_contents($confPath, $confDat);
 
-exec("service hostapd stop");
-sleep(5); // serviceコマンドが非同期なので、適当に寝て待つ
+exec("systemctl stop hostapd");
+sleep(5); // 適当に寝て待つ
 exec("killall -9 hostapd -q");
 exec("/usr/sbin/hostapd -B /etc/hostapd/hostapd.conf");
 
