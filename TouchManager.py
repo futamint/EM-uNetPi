@@ -24,19 +24,19 @@ class TouchManager:
 		fcntl.fcntl(self.in_file, fcntl.F_SETFL, os.O_NONBLOCK)
 
 	def PollEvent(self):
-		
+
 		try:
 			event = self.in_file.read(self.EVENT_SIZE)
 		except IOError, e:
 			if e.errno == 11:
 				return False
-			
+
 		(tv_sec, tv_usec, type, code, value) = struct.unpack(self.FORMAT, event)
 
 		if type != 0 or code != 0 or value != 0:
 			#print("Event type %u, code %u, value %u at %d.%d" % (type, code, value, tv_sec, tv_usec))
 			# Events with code, type and value == 0 are "separator" events
-			if code == 0:					
+			if code == 0:
 				self.lastPtX = int(value * self.rateX)
 				#self.sep = 0
 			elif code == 1:
@@ -55,16 +55,16 @@ class TouchManager:
 			else:
 				self.sep = 0
 		else:
-			self.sep = 0						
+			self.sep = 0
 
 		return True
-		
+
 	#def Update(self, pWanem, fDownCallback, fUpCallback, wait):
 	def Update(self, wait):
 
 		if wait <= 0.0:
 			return False
-		
+
 		# https://repolinux.wordpress.com/2012/10/09/non-blocking-read-from-stdin-in-python/
 		readable = select.select([self.in_file],[],[], wait)[0]
 		if not readable:
@@ -73,7 +73,7 @@ class TouchManager:
 		recvable = True
 		while recvable:
 			recvable = self.PollEvent()
-		
+
 	def Finalize(self):
 		self.in_file.close()
-		
+

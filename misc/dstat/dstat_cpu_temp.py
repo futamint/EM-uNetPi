@@ -18,7 +18,7 @@ class dstat_plugin(dstat):
 		matchObj = pattern.search(current)
 		if matchObj:
 			param = matchObj.group().split("=")[1].split("'")
-			self.val['cpuTempValue'] = param[0] 
+			self.val['cpuTempValue'] = param[0]
 		else:
 			self.val['cpuTempValue'] = '0.0'
 

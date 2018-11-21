@@ -5,9 +5,9 @@ class CTX:
 		# Local Context
 		#
 		self.tick                 = 0
-		self.current              = 0		
+		self.current              = 0
 		self.debug                = False
-		self.currentReplayData    = ""		
+		self.currentReplayData    = ""
 
 		#
 		# Local Config
@@ -17,7 +17,7 @@ class CTX:
 		self.infoApiUrl           = "https://raw.githubusercontent.com/KONAMI/EM-uNetPi/master/misc/api/ApiInfo.json"
 		self.copyright            = "Powered by Sato_Motohiko"
 		self.revision             = "PLA-A-2018082001"
-		
+
 		#
 		# Local Config ( Runtime Writeable )
 		#

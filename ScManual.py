@@ -17,7 +17,7 @@ class ScManual(ScBase):
 		self.ptDef.insert(4, self.CreateTocuhDef("BtSpeedR", 208 - 90*1, 100 + 80*1, 80, 48, self.BtHandler))
 		self.ptDef.insert(5, self.CreateTocuhDef("BtDelayL", 208 - 90*0, 100 + 80*2, 80, 48, self.BtHandler))
 		self.ptDef.insert(6, self.CreateTocuhDef("BtDelayR", 208 - 90*1, 100 + 80*2, 80, 48, self.BtHandler))
-		
+
 	def BtHandler(self, key):
 		print "BtHandler" + key
 		if key == "BtMenu":
@@ -41,28 +41,28 @@ class ScManual(ScBase):
 	def TouchUpHandler(self, x, y):
 		#print "TouchUpHandler Pos >> " + str(x) + " : " + str(y)
 		# for Human Err, All Up to DisconnRelease Call
-		self.pWanem.EmuDisconnRelease()		
+		self.pWanem.EmuDisconnRelease()
 		return
-		
+
 	def Start(self):
 		super(ScManual, self).Start()
 
 		##[ RENDER ]################################################################
-		
+
 		self.pRender.UpdateTitle("WAN Emulation - Manual Preset")
 		self.pRender.UpdateSubTitle("speed:nolimit, delay:nolimit")
 
 		c = yellow = self.pRender.fb.rgb(255,255,0)
-		self.pRender.fb.draw.rect(c, Rect(0,      54, self.pRender.xres, 1), 0)		
-		self.pRender.fb.draw.rect(c, Rect(0,      74, self.pRender.xres, 1), 0)		
-		self.pRender.fb.draw.rect(c, Rect(0,      54, 10+60, 20), 0)		
-		self.pRender.fb.draw.rect(c, Rect(480-10, 54, 10, 20), 0)		
+		self.pRender.fb.draw.rect(c, Rect(0,      54, self.pRender.xres, 1), 0)
+		self.pRender.fb.draw.rect(c, Rect(0,      74, self.pRender.xres, 1), 0)
+		self.pRender.fb.draw.rect(c, Rect(0,      54, 10+60, 20), 0)
+		self.pRender.fb.draw.rect(c, Rect(480-10, 54, 10, 20), 0)
 		self.pRender.fb.putstr(26, 54+7, ">>>", self.pRender.N, 1)
 
 		c = self.pRender.ConvRgb(0.16,1,0.6)
-		self.pRender.fb.draw.rect(c, Rect(1,      160, self.pRender.xres-2, 1), 0)		
-		self.pRender.fb.draw.rect(c, Rect(1,      240, self.pRender.xres-2, 1), 0)		
-		
+		self.pRender.fb.draw.rect(c, Rect(1,      160, self.pRender.xres-2, 1), 0)
+		self.pRender.fb.draw.rect(c, Rect(1,      240, self.pRender.xres-2, 1), 0)
+
 		self.RenderBackBt(True)
 
 		c = self.pRender.ConvRgb(0.56,0.6,0.6)
@@ -84,7 +84,7 @@ class ScManual(ScBase):
 		self.pRender.fb.draw.rect(c, Rect(380, 80*2 + 8 + 44, 80, 4), 0)
 		self.pRender.fb.putstr(286 + 20, 80*2 + 12, '<', 0, 5)
 		self.pRender.fb.putstr(386 + 20, 80*2 + 12, '>', 0, 5)
-		
+
 		c = self.pRender.ConvRgb(0.98,0.6,0.6)
 		self.pRender.fb.draw.rect(c, Rect(286, 80*1 + 8, 80, 44), 0)
 		self.pRender.fb.draw.rect(c, Rect(380, 80*1 + 8, 80, 44), 0)
@@ -103,8 +103,8 @@ class ScManual(ScBase):
 		#self.pWanem.InitDual(0)
 		#self.pWanem.EmuSpeedChange(1)
 		#self.pWanem.EmuSpeedChange(-1)
-		
+
 		return
 
 
-		
+

@@ -68,12 +68,12 @@ def main(argv):
 		type = str,
 		dest = 'initScene',
 		required = False,
-		help = 'initial scene'		
+		help = 'initial scene'
 	)
 	args = parser.parse_args()
 	#print str(args.debug)
 	#print str(args.initScene)
-	
+
 	pCTX    = CTX()
 	pRender = RenderManager()
 	#pRender.RenderBaseFrame()
@@ -82,21 +82,21 @@ def main(argv):
 	pTouch = TouchManager(pSceneManager)
 
 	now  = time.time()
-	
+
 	while True:
 		pSceneManager.Update()
-		
+
 		pCTX.current = time.time()
 		waitBy  = now + (1 / 60.0 * pCTX.tick)
 		#pTouch.Update(pWanem, TouchDownHandler, TouchUpHandler, waitBy - pCTX.current)
 		pTouch.Update(waitBy - pCTX.current)
-		
+
 		pCTX.current = time.time()
 
 		if waitBy > pCTX.current:
 			time.sleep(waitBy - pCTX.current)
 			pCTX.current = time.time()
-			
+
 		if pCTX.current - now >= 1.0:
 			# print "pCTX.tick : %02d / %d" % (pCTX.tick, int(pCTX.current * 1000))
 			now += 1.0
@@ -104,7 +104,7 @@ def main(argv):
 
 		pCTX.tick += 1
 
-	
+
 	pRender.Finalize()
 	pTouch.Finalize()
 

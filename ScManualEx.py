@@ -38,7 +38,7 @@ class ScManualEx(ScBase):
 		self.ptDef.insert(25, self.CreateTocuhDef("BtDwDelay10R",  144-72, 158+30*1, 40, 26, self.BtHandler))
 		self.ptDef.insert(26, self.CreateTocuhDef("BtDwDelay100L", 144,    158+30*2, 40, 26, self.BtHandler))
 		self.ptDef.insert(27, self.CreateTocuhDef("BtDwDelay100R", 144-72, 158+30*2, 40, 26, self.BtHandler))
-		
+
 	def BtHandler(self, key):
 		print "BtHandler" + key
 		if key == "BtMenu":
@@ -52,14 +52,14 @@ class ScManualEx(ScBase):
 			if self.isApply != 0:
 				self.pWanem.EmuDisconnPushMini(self.upBand, self.dwBand, self.upDelay, self.dwDelay)
 		elif key == "BtApply":
-			self.isApply = (self.isApply + 1) % 2 
+			self.isApply = (self.isApply + 1) % 2
 			self.RenderApplyBt()
 			if self.isApply == 0:
 				self.ReleaseDirectParam()
 				self.pRender.UpdateSubTitle("Set Param Manually - Status : Non Active")
 			else:
 				self.ApplyDirectParam()
-				self.pRender.UpdateSubTitle("Set Param Manually - Status : Active")				
+				self.pRender.UpdateSubTitle("Set Param Manually - Status : Active")
 		elif key == "BtUpBand1L":
 			self.UpdateUpBandParam(-1)
 		elif key == "BtUpBand1R":
@@ -71,7 +71,7 @@ class ScManualEx(ScBase):
 		elif key == "BtUpBand100L":
 			self.UpdateUpBandParam(-100)
 		elif key == "BtUpBand100R":
-			self.UpdateUpBandParam(100)			
+			self.UpdateUpBandParam(100)
 		elif key == "BtDwBand1L":
 			self.UpdateDwBandParam(-1)
 		elif key == "BtDwBand1R":
@@ -95,7 +95,7 @@ class ScManualEx(ScBase):
 		elif key == "BtUpDelay100L":
 			self.UpdateUpDelayParam(-100)
 		elif key == "BtUpDelay100R":
-			self.UpdateUpDelayParam(100)			
+			self.UpdateUpDelayParam(100)
 		elif key == "BtDwDelay1L":
 			self.UpdateDwDelayParam(-1)
 		elif key == "BtDwDelay1R":
@@ -107,20 +107,20 @@ class ScManualEx(ScBase):
 		elif key == "BtDwDelay100L":
 			self.UpdateDwDelayParam(-100)
 		elif key == "BtDwDelay100R":
-			self.UpdateDwDelayParam(100)			
+			self.UpdateDwDelayParam(100)
 
 	def TouchUpHandler(self, x, y):
 		#print "TouchUpHandler Pos >> " + str(x) + " : " + str(y)
 		# for Human Err, All Up to DisconnRelease Call
-		if self.isApply != 0:		
-			self.pWanem.EmuDisconnReleaseMini(self.upBand, self.dwBand, self.upDelay, self.dwDelay)		
+		if self.isApply != 0:
+			self.pWanem.EmuDisconnReleaseMini(self.upBand, self.dwBand, self.upDelay, self.dwDelay)
 		return
-			
+
 	def ApplyDirectParam(self):
 		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*0+20, 112, 60, 18), 0)
 		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*1+20, 112, 60, 18), 0)
 		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*2+20, 112, 60, 18), 0)
-		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*3+20, 112, 60, 18), 0)		
+		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*3+20, 112, 60, 18), 0)
 		self.pRender.fb.putstr(116*0 + 16*1+10, 114, "%04d" % self.upBand,   self.pRender.W, 2)
 		self.pRender.fb.putstr(116*1 + 16*1+10, 114, "%04d" % self.dwBand,   self.pRender.W, 2)
 		self.pRender.fb.putstr(116*2 + 16*1+10, 114, "%04d" % self.upDelay,  self.pRender.W, 2)
@@ -132,13 +132,13 @@ class ScManualEx(ScBase):
 		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*0+20, 112, 60, 18), 0)
 		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*1+20, 112, 60, 18), 0)
 		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*2+20, 112, 60, 18), 0)
-		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*3+20, 112, 60, 18), 0)		
+		self.pRender.fb.draw.rect(self.pRender.N, Rect(116*3+20, 112, 60, 18), 0)
 		self.pRender.fb.putstr(116*0 + 16*1+10, 114, "%04d" % self.upBand,   c, 2)
 		self.pRender.fb.putstr(116*1 + 16*1+10, 114, "%04d" % self.dwBand,   c, 2)
 		self.pRender.fb.putstr(116*2 + 16*1+10, 114, "%04d" % self.upDelay,  c, 2)
 		self.pRender.fb.putstr(116*3 + 16*1+10, 114, "%04d" % self.dwDelay,  c, 2)
 		self.pWanem.ClearEx()
-		
+
 	def UpdateUpBandParam(self, delta):
 		if self.isApply != 0:
 			return
@@ -178,19 +178,19 @@ class ScManualEx(ScBase):
 		if self.dwDelay < 0:
 			self.dwDelay = 0
 		self.RenderParamForm(3, "",  "%04d" % self.dwDelay, "", True)
-		
+
 	def RenderParamForm(self, idx, label, value, unit, isParamOnly = False):
-		
+
 		if isParamOnly == True:
 			self.pRender.fb.draw.rect(self.pRender.N, Rect(116*idx+20, 112, 60, 18), 0)
-		
+
 		c = self.pRender.ConvRgb(0.94,0.8,0.9);
 		self.pRender.fb.putstr(116*idx + 16*1+10,    114, value,     c, 2)
 
 		if isParamOnly == True:
 			return
 
-		c = self.pRender.ConvRgb(0.44,0.3,0.9);		
+		c = self.pRender.ConvRgb(0.44,0.3,0.9);
 		self.pRender.fb.putstr(116*idx + 16*1,       85,  label, c, 2)
 		self.pRender.fb.putstr(116*idx + 16*1+10+58, 120, unit,     self.pRender.W, 1)
 
@@ -215,40 +215,40 @@ class ScManualEx(ScBase):
 
 		c = self.pRender.ConvRgb(0.44,0.1,1);
 		self.pRender.fb.putstr(116*idx + 16*1+5,  145+30*0, "-", c, 4)
-		self.pRender.fb.putstr(116*idx + 16*1+77, 145+30*0, "+", c, 4)		
+		self.pRender.fb.putstr(116*idx + 16*1+77, 145+30*0, "+", c, 4)
 		self.pRender.fb.putstr(116*idx + 16*1+5,  145+30*1, "-", c, 4)
-		self.pRender.fb.putstr(116*idx + 16*1+77, 145+30*1, "+", c, 4)		
+		self.pRender.fb.putstr(116*idx + 16*1+77, 145+30*1, "+", c, 4)
 		self.pRender.fb.putstr(116*idx + 16*1+5,  145+30*2, "-", c, 4)
-		self.pRender.fb.putstr(116*idx + 16*1+77, 145+30*2, "+", c, 4)		
-			
+		self.pRender.fb.putstr(116*idx + 16*1+77, 145+30*2, "+", c, 4)
+
 	def Start(self):
 		super(ScManualEx, self).Start()
 
 		##[ PARAM ]################################################################
-		
+
 		self.upBand  = 512
 		self.dwBand  = 512
 		self.upDelay = 0
-		self.dwDelay = 0		
-		self.isApply = 0		
+		self.dwDelay = 0
+		self.isApply = 0
 
 		##[ RENDER ]################################################################
-		
+
 		self.pRender.UpdateTitle("WAN Emulation - Manual Direct")
 		self.pRender.UpdateSubTitle("Set Param Manually - Status : Non Active")
 
 		c = yellow = self.pRender.fb.rgb(255,255,0)
-		self.pRender.fb.draw.rect(c, Rect(0,      54, self.pRender.xres, 1), 0)		
-		self.pRender.fb.draw.rect(c, Rect(0,      74, self.pRender.xres, 1), 0)		
-		self.pRender.fb.draw.rect(c, Rect(0,      54, 10+60, 20), 0)		
-		self.pRender.fb.draw.rect(c, Rect(480-10, 54, 10, 20), 0)		
+		self.pRender.fb.draw.rect(c, Rect(0,      54, self.pRender.xres, 1), 0)
+		self.pRender.fb.draw.rect(c, Rect(0,      74, self.pRender.xres, 1), 0)
+		self.pRender.fb.draw.rect(c, Rect(0,      54, 10+60, 20), 0)
+		self.pRender.fb.draw.rect(c, Rect(480-10, 54, 10, 20), 0)
 		self.pRender.fb.putstr(26, 54+7, ">>>", self.pRender.N, 1)
 
 		c = self.pRender.ConvRgb(0.16,1,0.6)
-		#self.pRender.fb.draw.rect(c, Rect(1,      160, self.pRender.xres-2, 1), 0)		
-		self.pRender.fb.draw.rect(c, Rect(1,                      240, self.pRender.xres-2-150, 1), 0)		
-		self.pRender.fb.draw.rect(c, Rect(self.pRender.xres-150 - 1,  240, 1, 79), 0)		
-		
+		#self.pRender.fb.draw.rect(c, Rect(1,      160, self.pRender.xres-2, 1), 0)
+		self.pRender.fb.draw.rect(c, Rect(1,                      240, self.pRender.xres-2-150, 1), 0)
+		self.pRender.fb.draw.rect(c, Rect(self.pRender.xres-150 - 1,  240, 1, 79), 0)
+
 		self.RenderBackBt(True)
 
 		self.RenderParamForm(0, "Up Band",  "%04d" % self.upBand,  "kbps")
@@ -274,7 +274,7 @@ class ScManualEx(ScBase):
 		#self.pRender.fb.draw.rect(c, Rect(380, 80*2 + 8 + 44, 80, 4), 0)
 		#self.pRender.fb.putstr(286 + 20, 80*2 + 12, '<', 0, 5)
 		#self.pRender.fb.putstr(386 + 20, 80*2 + 12, '>', 0, 5)
-		
+
 		c = self.pRender.ConvRgb(0.98,0.6,0.6)
 		self.pRender.fb.draw.rect(c, Rect(286-140, 80*3 + 8, 80, 44), 0)
 		self.pRender.fb.draw.rect(c, Rect(380-140, 80*3 + 8, 80, 44), 0)
@@ -289,7 +289,7 @@ class ScManualEx(ScBase):
 
 		self.RenderApplyBt()
 		self.pWanem.ClearEx()
-		
+
 		return
 
 	def RenderApplyBt(self):
@@ -303,4 +303,4 @@ class ScManualEx(ScBase):
 		else:
 			self.pRender.fb.putstr(350 + 12, 80*3 + 22, "Release", 0, 2)
 
-		
+

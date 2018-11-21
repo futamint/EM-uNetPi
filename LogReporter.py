@@ -4,7 +4,7 @@ from DataAsset import CTX
 
 class LogReporter:
 
-	@staticmethod	
+	@staticmethod
 	def SendLog(pCTX, activityType, activityInfo):
 
 		url = ""
@@ -19,26 +19,26 @@ class LogReporter:
 		SIOCGIFHWADDR = 0x8927
 		ifaddr = ioctl(sock.fileno(), SIOCGIFHWADDR, ifreq)
 		hwaddr = ''.join(['%02x' % ord(char) for char in ifaddr[18:24]])[:-1]
-	
+
 		params  = {
 			'macAddr'      : hwaddr,
 			'activityType' : activityType,
 			'activityInfo' : activityInfo
 		}
-	
+
 		r = requests.post(pCTX.activityReportApiUrl, headers=headers, data=params)
 		print r.text
 		#data = r.json()
 		#print json.dumps(data, indent=4)
 
-	@staticmethod	
+	@staticmethod
 	def ReportDhcpClientInfo(pCTX, info, wanemId, isTmp):
 
 		headers = {
 			"content-type" : "application/json",
 			"x-api-key"    : pCTX.dhcpClientReportApiKey,
 		}
-				
+
 		params  = {
 			'wanemId'        : wanemId,
 			'clientHostname' : info[3],
@@ -48,9 +48,9 @@ class LogReporter:
 		}
 
 		r = requests.post(pCTX.dhcpClientReportApiUrl, headers=headers, data=json.dumps(params))
-		print r.text		
-		#print json.dumps(params) 
-		
+		print r.text
+		#print json.dumps(params)
+
 if __name__ == '__main__':
 	#main(sys.argv[1:])
 	LogReporter.SendLog(1, "Test")

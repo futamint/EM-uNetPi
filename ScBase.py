@@ -10,14 +10,14 @@ class ScBase(object):
 	def __init__(self, pCTX, pRender, pWanem):
 		self.pCTX    = pCTX
 		self.pRender = pRender
-		self.pWanem  = pWanem		
+		self.pWanem  = pWanem
 
 		self.STATE_INIT = 0
 		self.STATE_TERM = 100
 		self.state      = self.STATE_INIT
 		self.nextScene  = ""
 		self.ptDef      = []
-		
+
 	def TouchDownHandler(self, x, y):
 		print "TouchDownHandler Pos >> " + str(x) + " : " + str(y)
 		self.CallTouchFunc(x,y,True)
@@ -27,8 +27,8 @@ class ScBase(object):
 		print "TouchUpHandler Pos >> " + str(x) + " : " + str(y)
 		self.CallTouchFunc(x,y,False)
 		return
-	
-	def Start(self):		
+
+	def Start(self):
 		self.pRender.Clear()
 
 		c = yellow = self.pRender.fb.rgb(255,255,0)
@@ -39,17 +39,17 @@ class ScBase(object):
 		self.pRender.fb.draw.rect(c, Rect(self.pRender.fb.xres-6, self.pRender.fb.yres-6, 4, 4), 0)
 
 		self.state      = self.STATE_INIT
-		
+
 		return
 
 	def Update(self):
-		return	
+		return
 
 	def RenderBackBt(self, enabled):
 		if enabled:
 			c = self.pRender.ConvRgb(0.10,0.2,0.8)
 		else:
-			c = self.pRender.ConvRgb(0.10,0.2,0.3)			
+			c = self.pRender.ConvRgb(0.10,0.2,0.3)
 		self.pRender.fb.draw.rect(c, Rect(7, 7,      62, 38), 0)
 		c = self.pRender.ConvRgb(0.10,0.2,0.2)
 		self.pRender.fb.draw.rect(c, Rect(7, 7 + 38, 62, 4), 0)
@@ -66,7 +66,7 @@ class ScBase(object):
 						pt[5](pt[0])
 				else:
 					if pt[6] is not None:
-						pt[6](pt[0])					
+						pt[6](pt[0])
 				break
 
 	def SetTouchActive(self, k, isActive):
@@ -74,10 +74,10 @@ class ScBase(object):
 			pt = self.ptDef[idx]
 			if pt[0] == k:
 				pt[7] = isActive
-	
+
 	def CreateTocuhDef(self, k, x, y, w, h, fOnDown = None, fOnUp = None, isActive = True):
 		return [k, x, y, w, h, fOnDown, fOnUp, isActive]
-			
+
 	def GetSelfId(self):
 		cpuserial = "0000000000000000"
 		try:
@@ -97,7 +97,7 @@ class ScBase(object):
 			print 'message:' + e.message
 			print 'e:' + str(e)
 			cpuserial = "00000000000ERROR"
-			
+
 		return cpuserial[10:16]
 
-		
+

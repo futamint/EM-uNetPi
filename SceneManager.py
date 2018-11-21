@@ -21,7 +21,7 @@ class SceneManager:
 		self.pWanem  = pWanem
 
 		self.pCTX.debug = params["debug"]
-		
+
 		self.pScInit      = ScInit(self.pCTX, self.pRender, self.pWanem)
 		self.pScMenu      = ScMenu(self.pCTX, self.pRender, self.pWanem)
 		self.pScManual    = ScManual(self.pCTX, self.pRender, self.pWanem)
@@ -36,32 +36,32 @@ class SceneManager:
 			self.LoadScene("Init")
 		else:
 			self.LoadScene(params["initScene"])
-		
+
 	def Update(self):
 		if self.m_currentScene is not None:
 			self.m_currentScene.Update()
 			if self.m_currentScene.state == self.m_currentScene.STATE_TERM:
 				self.LoadScene(self.m_currentScene.nextScene)
-		
+
 	def TouchDownHandler(self, x, y):
 		if self.m_currentScene is not None:
 			self.m_currentScene.TouchDownHandler(x, y)
 
 	def TouchUpHandler(self, x, y):
-		if self.m_currentScene is not None:		
+		if self.m_currentScene is not None:
 			self.m_currentScene.TouchUpHandler(x, y)
 
 	def LoadScene(self, nextScene):
 		if nextScene == "":
 			self.m_currentScene = None
 			return
-		
+
 		if nextScene == "Init":
 			self.m_currentScene = self.pScInit
 		elif nextScene == "Menu":
 			self.m_currentScene = self.pScMenu
 		elif nextScene == "Manual":
-			self.m_currentScene = self.pScManual		
+			self.m_currentScene = self.pScManual
 		elif nextScene == "ManualEx":
 			self.m_currentScene = self.pScManualEx
 		elif nextScene == "ManualEx2":
@@ -76,5 +76,5 @@ class SceneManager:
 			self.m_currentScene = self.pScRemoteApi
 		else:
 			self.m_currentScene = self.pScMenu # default
-			
+
 		self.m_currentScene.Start()

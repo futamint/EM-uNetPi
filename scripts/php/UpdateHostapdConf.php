@@ -23,7 +23,7 @@ if($mode == 0){
     case 2:  $ch2 = 11; break;
     default: $ch2 = 1; break;
     }
-    
+
     $confDat   = "interface=wlan0" . "\n"
         . "driver=nl80211" . "\n"
         . "ssid=" . $key . "\n"
@@ -37,8 +37,8 @@ if($mode == 0){
         . "wpa_pairwise=TKIP" . "\n"
         . "rsn_pairwise=CCMP" . "\n"
         ;
-    exec("unlink /usr/sbin/hostapd");    
-    exec("ln -s /usr/local/sbin/hostapd.24 /usr/sbin/hostapd");    
+    exec("unlink /usr/sbin/hostapd");
+    exec("ln -s /usr/local/sbin/hostapd.24 /usr/sbin/hostapd");
 }
 else {
     switch($ch){
@@ -59,9 +59,9 @@ else {
         . "wpa_key_mgmt=WPA-PSK" . "\n"
         . "wpa_pairwise=TKIP" . "\n"
         . "rsn_pairwise=CCMP" . "\n"
-        ;    
-    exec("unlink /usr/sbin/hostapd");    
-    exec("ln -s /usr/local/sbin/hostapd.5 /usr/sbin/hostapd");    
+        ;
+    exec("unlink /usr/sbin/hostapd");
+    exec("ln -s /usr/local/sbin/hostapd.5 /usr/sbin/hostapd");
 }
 
 file_put_contents($confPath, $confDat);

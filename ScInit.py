@@ -19,26 +19,26 @@ class ScInit(ScBase):
 		self.stepLabel    = [".","..","...","OK","ERR"]
 		self.worker       = None
 		self.workerRet    = 0
-		
+
 		self.STATE_CHK_NETWORK       = 1
 		self.STATE_GET_INFO          = 2
 		self.STATE_CHK_EMULATE_DAT   = 3
 		self.STATE_CHK_WIFI_DONGLE   = 4
 		self.STATE_SETUP_AP          = 5
 		self.STATE_CHK_LAN_INTERFACE = 6
-		
+
 	def CheckHttpConnectivity(self):
-		print "-------------------------------"		
+		print "-------------------------------"
 		while HttpUtil.CheckConnectivity(self.pCTX.connectivityCheckUrl, 1) == False:
 				time.sleep(1)
 		self.workerRet = 3
 		print "-------------------------------"
 		return
-	
+
 	def GetApiInfo(self):
 		apiUrl   = self.pCTX.infoApiUrl
 		savePath = "/tmp/WanemApiInfo.json"
-		print "-------------------------------"		
+		print "-------------------------------"
 		while HttpUtil.Get(apiUrl, savePath, 1) == False:
 				time.sleep(1)
 		file = open(savePath)
@@ -63,13 +63,13 @@ class ScInit(ScBase):
 		except subprocess.CalledProcessError:
 			ret = False
 			self.workerRet = 4
-		
+
 		print str(ret)
 		print "-------------------------------"
 		return
 
 	def SetupAP(self):
-		print "-------------------------------"		
+		print "-------------------------------"
 		cmd = "php /home/pi/EM-uNetPi/scripts/php/UpdateHostapdConf.php wanem-" + self.GetSelfId()
 		print cmd
 		ret = False
@@ -81,13 +81,13 @@ class ScInit(ScBase):
 		except subprocess.CalledProcessError:
 			ret = False
 			self.workerRet = 4
-		
+
 		print str(ret)
 		print "-------------------------------"
 		return
 
 	def CheckLanInterface(self):
-		print "-------------------------------"		
+		print "-------------------------------"
 		cmd = "ifconfig eth2"
 		ret = False
 
@@ -100,13 +100,13 @@ class ScInit(ScBase):
 			self.pCTX.lanMode = self.pCTX.LAN_MODE_WLAN
 			ret = True
 			self.workerRet = 3
-		
+
 		print str(ret)
 		print "-------------------------------"
 		return
-	
+
 	def CheckWifiDongle(self):
-		print "-------------------------------"		
+		print "-------------------------------"
 		cmd = "lsusb -d 0411:0242"
 		ret = False
 
@@ -120,7 +120,7 @@ class ScInit(ScBase):
 			ret = True
 			self.workerRet = 3
 
-		cmd = "cat /etc/wanem/apmode.prop"			
+		cmd = "cat /etc/wanem/apmode.prop"
 		try:
 			currentApMode = int(subprocess.check_output(cmd.strip().split(" ")).replace('\n',''))
 		except subprocess.CalledProcessError:
@@ -143,7 +143,7 @@ class ScInit(ScBase):
 				subprocess.check_call(cmd.strip().split(" "))
 			except subprocess.CalledProcessError:
 				print ("Update Module Blacklist Fail")
-			
+
 		print "WifiDongle Exist : " + str(self.pCTX.wifiDongleExist)
 		print "-------------------------------"
 		return
@@ -152,24 +152,24 @@ class ScInit(ScBase):
 		super(ScInit, self).Start()
 
 		##[ INIT STATE ]################################################################
-		
+
 		self.state = self.STATE_TERM
 		self.nextScene = "Menu"
-		#self.nextScene = "ManualEx"						
+		#self.nextScene = "ManualEx"
 		self.state = self.STATE_CHK_NETWORK
 		#self.state = self.STATE_CHK_EMULATE_DAT
-		#self.workerRet = 0			
+		#self.workerRet = 0
 		self.worker = threading.Thread(target=self.CheckHttpConnectivity, args=())
 		#self.worker = threading.Thread(target=self.CheckWanemDat, args=())
 		self.worker.start()
-		
+
 		##[ RENDER ]################################################################
-		
+
  		self.pRender.UpdateTitle("Boot - rev : " + self.pCTX.revision)
 
 		c = yellow = self.pRender.fb.rgb(255,255,0)
-		self.pRender.fb.draw.rect(c, Rect(0, 54, self.pRender.xres, 1), 0)		
-		
+		self.pRender.fb.draw.rect(c, Rect(0, 54, self.pRender.xres, 1), 0)
+
 		label = "%-18s [     ]" % "CHK NETWORK"
 		self.pRender.fb.putstr(20,  74 + 32*0, label, self.pRender.W, 2)
 		label = "%-18s [     ]" % "GET API INFO"
@@ -187,35 +187,35 @@ class ScInit(ScBase):
 		self.pRender.fb.putstr(273, 74 + 32*3, " - ", self.pRender.W, 2)
 		self.pRender.fb.putstr(273, 74 + 32*4, " - ", self.pRender.W, 2)
 		#self.pRender.fb.draw.rect(self.pRender.W, Rect(271, 74, 40, 16), 0)
-		
+
 		return
 
 	def Update(self):
 		if self.pCTX.tick == 1:
 			self.tickCnt = (self.tickCnt + 1) % self.tickDuration
-			
+
 		if self.state == self.STATE_CHK_NETWORK:
 			if self.worker.isAlive() == False:
 				self.worker.join();
 				self.UpdateProgress(0, self.workerRet)
 				self.state = self.STATE_GET_INFO
 				self.worker = None
-				self.workerRet = 0			
+				self.workerRet = 0
 				self.worker = threading.Thread(target=self.GetApiInfo, args=())
-				self.worker.start()	
+				self.worker.start()
 			else:
 				if self.tickCnt != self.prevTickCnt:
 					self.UpdateProgress(0, self.tickCnt)
-					
+
 		elif self.state == self.STATE_GET_INFO:
 			if self.worker.isAlive() == False:
 				self.worker.join();
 				self.UpdateProgress(1, self.workerRet)
 				self.state = self.STATE_CHK_WIFI_DONGLE
 				self.worker = None
-				self.workerRet = 0			
+				self.workerRet = 0
 				self.worker = threading.Thread(target=self.CheckWifiDongle, args=())
-				self.worker.start()	
+				self.worker.start()
 			else:
 				if self.tickCnt != self.prevTickCnt:
 					self.UpdateProgress(1, self.tickCnt)
@@ -226,22 +226,22 @@ class ScInit(ScBase):
 				self.UpdateProgress(2, self.workerRet)
 				self.state = self.STATE_SETUP_AP
 				self.worker = None
-				self.workerRet = 0			
+				self.workerRet = 0
 				self.worker = threading.Thread(target=self.SetupAP, args=())
-				self.worker.start()	
+				self.worker.start()
 			else:
 				if self.tickCnt != self.prevTickCnt:
 					self.UpdateProgress(2, self.tickCnt)
-					
+
 		elif self.state == self.STATE_SETUP_AP:
 			if self.worker.isAlive() == False:
 				self.worker.join();
 				self.UpdateProgress(3, self.workerRet)
 				self.state = self.STATE_CHK_LAN_INTERFACE
 				self.worker = None
-				self.workerRet = 0			
+				self.workerRet = 0
 				self.worker = threading.Thread(target=self.CheckLanInterface, args=())
-				self.worker.start()	
+				self.worker.start()
 			else:
 				if self.tickCnt != self.prevTickCnt:
 					self.UpdateProgress(3, self.tickCnt)
@@ -251,20 +251,20 @@ class ScInit(ScBase):
 				self.worker.join();
 				self.UpdateProgress(4, self.workerRet)
 
-				if self.pCTX.apiStatus == 0: 
+				if self.pCTX.apiStatus == 0:
 					LogReporter.SendLog(self.pCTX, 1, "StartUp")
-				
+
 				self.state = self.STATE_TERM
 				self.worker = None
 				print self.pCTX.lanMode
 			else:
 				if self.tickCnt != self.prevTickCnt:
 					self.UpdateProgress(4, self.tickCnt)
-					
-					
+
+
 		self.prevTickCnt = self.tickCnt
-		
-		return	
+
+		return
 
 	def UpdateProgress(self, target, step):
 		if step == 3:
@@ -273,6 +273,6 @@ class ScInit(ScBase):
 			c = self.pRender.R
 		else:
 			c = self.pRender.W
-		self.pRender.fb.draw.rect(self.pRender.N, Rect(271, 74 + 32*target, 40, 16), 0)		
+		self.pRender.fb.draw.rect(self.pRender.N, Rect(271, 74 + 32*target, 40, 16), 0)
 		self.pRender.fb.putstr(273, 74 + 32*target, self.stepLabel[step], c, 2)
-		
+
